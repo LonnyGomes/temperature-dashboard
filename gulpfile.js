@@ -114,6 +114,7 @@ gulp.task('watch', function () {
 
 gulp.task('serve', function (cb) {
   runSequence('clean:tmp',
+    'bower',
     ['lint:scripts'],
     ['start:client'],
     'watch', cb);
@@ -198,7 +199,7 @@ gulp.task('copy:fonts', function () {
 });
 
 gulp.task('build', ['clean:dist'], function () {
-  runSequence(['images', 'copy:extras', 'copy:fonts', 'client:build']);
+  runSequence(['bower', 'images', 'copy:extras', 'copy:fonts', 'client:build']);
 });
 
 gulp.task('default', ['build']);
