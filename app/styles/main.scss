@@ -87,3 +87,14 @@ body {
     border-bottom: 0;
   }
 }
+
+.temperature-text {
+  fill: #fff;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.temperature-container {
+  display: inline-block;
+  margin: 2px 10px;
+}
