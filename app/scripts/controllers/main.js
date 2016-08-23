@@ -7,7 +7,7 @@
  * Controller of the temperatureDashboardApp
  */
 angular.module('temperatureDashboardApp')
-  .controller('MainCtrl', function (temperatureService, $timeout) {
+  .controller('MainCtrl', function (temperatureService, $timeout, $interval) {
     'use strict';
     var self = this;
 
@@ -42,5 +42,13 @@ angular.module('temperatureDashboardApp')
       }, function (err) {
         console.error('err:', err);
       });
+
+    //periodically update the moment timeString
+    $interval(function () {
+        Object.keys(self.temperatures).forEach(function(curKey) {
+            var m = moment(self.temperatures[curKey].timeStamp);
+            self.temperatures[curKey].timeString = m.fromNow();
+        });
+    }, 30000);
 
   });
