@@ -97,4 +97,13 @@ body {
 .temperature-container {
   display: inline-block;
   margin: 2px 10px;
+  text-align: center;
+  background-color: aliceblue;
+  padding: 0px 15px;
+}
+
+.temperature-timestamp {
+  font-size: 12px;
+  color: #212121;
+  font-style: italic;
 }
