@@ -29,10 +29,16 @@ angular.module('temperatureDashboardApp')
 
           return $http.jsonp(url)
             .then(function (result) {
+              var m;
+
               if (result.data.status) {
                 if (!result.data.data) {
                   return $q.reject('Invalid device');
                 }
+
+                //add a time stamp human readable string
+                m = moment(result.data.data.timeStamp);
+                result.data.data.timeString = m.fromNow();
 
                 return result.data.data;
               } else {
