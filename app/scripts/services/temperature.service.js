@@ -53,14 +53,14 @@ angular.module('temperatureDashboardApp')
         .then(function (configResult) {
           var baseUrl = configResult.temperatureBaseUrl,
             url = baseUrl + '/api/list/current/temperature/' +
-                  (dateRange || 'hour' + '/') +
+                  (dateRange || 'hour' ) + '/' +
                   deviceName + '?callback=JSON_CALLBACK';
 
           return $http.jsonp(url)
             .then(function (result) {
               if (result.data.status) {
                 if (!result.data.data) {
-                  return $q.reject('Invalid device');
+                  return $q.reject('Invalid request');
                 }
                 return result.data.data;
               } else {
