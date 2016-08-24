@@ -13,7 +13,7 @@ angular.module('temperatureDashboardApp')
 
     var self = this,
       getTemperature = function (deviceName, dateRange) {
-        temperatureService.getTemperature(deviceName, dateRange)
+        return temperatureService.getTemperature(deviceName, dateRange)
           .then(function (val) {
             self.temperatures[deviceName] = val;
           }, function (err) {
@@ -22,7 +22,8 @@ angular.module('temperatureDashboardApp')
       };
 
     self.temperatures = {
-      office: null
+      office: null,
+      Living_Room_Thermostat: null
     };
 
     self.getOfficeTemperature = function (dateRange) {
@@ -34,10 +35,17 @@ angular.module('temperatureDashboardApp')
       getTemperature.apply(null, args);
     };
 
-    temperatureService.getTemperature('office')
-      .then(function (val) {
-        self.temperatures.office = val;
-      }, function (err) {
-        console.error('err:', err);
-      });
+    self.getLivingRoomTemperature = function (dateRange) {
+      var args = ['Living_Room_Thermostat'];
+      if (dateRange) {
+        args.push(dateRange);
+      }
+
+      getTemperature.apply(null, args);
+    };
+
+    getTemperature('office');
+
+    getTemperature('Living_Room_Thermostat');
+
   });
