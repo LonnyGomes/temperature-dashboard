@@ -17,14 +17,12 @@ angular.module('temperatureDashboardApp')
         label: "@"
       },
       link: function postLink(scope, element, attrs) {
-        var margin = {top: 20, right: 10, bottom: 20, left: 10},
-          frame = {width: 70, height: 200},
+        var margin = {top: 0, right: 0, bottom: 0, left: 0},
+          frame = {width: 60, height: 250},
           bgColor = '#e2e2e2',
           fgColor = '#3476d0',
           width = frame.width - margin.left,
-          //width = frame.width - margin.left - margin.right,
           height = frame.height,
-          //height = frame.height  - margin.top - margin.bottom,
           yScale = d3.scaleLinear()
             .domain([0, 120])
             .range([0, height]),
