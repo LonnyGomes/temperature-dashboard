@@ -77,6 +77,11 @@ angular.module('temperatureDashboardApp')
             return d.humidity;
           }));
 
+          //remove any existing elements
+          //eventually this should change to use smooth transitions
+          svg.selectAll('g').remove();
+          svg.selectAll('path').remove();
+
           svg.append('g')
             .attr('class', 'axis axis--x')
             .attr('transform', 'translate(0,' + height + ')')
