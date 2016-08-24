@@ -1,0 +1,39 @@
+
+$temperature-clr: red;
+$humidity-clr: steelblue;
+
+//D3 styles
+.axis {
+  font: 10px sans-serif;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
+
+// .axis--x path {
+//   display: none;
+// }
+
+.line {
+  fill: none;
+  stroke: $temperature-clr;
+  stroke-width: 1.5px;
+}
+
+.line.humidity {
+  fill: none;
+  stroke: $humidity-clr;
+  stroke-width: 1.5px;
+}
+
+.axis-title {
+  fill: $temperature-clr;
+}
+
+.axis-title.humidity {
+  fill: $humidity-clr;
+}
