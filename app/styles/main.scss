@@ -88,5 +88,19 @@ body {
   }
 }
 
+//styles for graphs view
+.graph-container {
+  display: inline-block;
+  background-color: #fafafa;
+  padding-bottom: 10px;
+  margin-top: 5px;
+  margin-bottom: 10px;
+
+  .graph-range-toggles {
+    width: 100%;
+    text-align: center;
+  }
+}
+
 @import '_lg-curr-temperature';
 @import '_lg-temperature-chart';

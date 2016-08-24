@@ -1,10 +1,13 @@
-<h3>Office Graph</h3>
+<div class="graph-container">
+  <h3>Office Graph</h3>
 
-<lg-temperature-chart temperature="graphs.temperatures.office"></lg-temperature-chart>
+  <lg-temperature-chart temperature="graphs.temperatures.office"></lg-temperature-chart>
 
-
-<div class="btn-group" role="group" aria-label="...">
-  <button ng-click="graphs.getOfficeTemperature()" type="button" class="btn btn-default">Hour</button>
-  <button ng-click="graphs.getOfficeTemperature('day')" type="button" class="btn btn-default">Day</button>
-  <button ng-click="graphs.getOfficeTemperature('week')" type="button" class="btn btn-default">Week</button>
+  <div class="graph-range-toggles">
+    <div class="btn-group" role="group" aria-label="...">
+      <button ng-click="graphs.getOfficeTemperature()" type="button" class="btn btn-default">Hour</button>
+      <button ng-click="graphs.getOfficeTemperature('day')" type="button" class="btn btn-default">Day</button>
+      <button ng-click="graphs.getOfficeTemperature('week')" type="button" class="btn btn-default">Week</button>
+    </div>
+  </div>
 </div>
