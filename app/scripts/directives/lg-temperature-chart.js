@@ -10,8 +10,12 @@ angular.module('temperatureDashboardApp')
   .directive('lgTemperatureChart', function ($http) {
     'use strict';
     return {
-      template: '<div id="chart"></div>',
+      templateUrl: 'scripts/directives/lg-temperature-chart.html',
       restrict: 'E',
+      scope: {
+        temperature: '=',
+        label: "@"
+      },
       link: function postLink(scope, element, attrs) {
         var margin = {
             top: 20,
@@ -54,14 +58,14 @@ angular.module('temperatureDashboardApp')
             return yHumidity(d.humidity);
           });
 
-        var svg = d3.select('#chart').append('svg')
+        var svg = d3.select(element.find('.temperature-chart')[0]).append('svg')
           .attr('width', width + margin.left + margin.right)
           .attr('height', height + margin.top + margin.bottom)
           .append('g')
           .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
 
         var callback = function (result) {
-          data = result.data;
+          data = result;
 
           x.domain(d3.extent(data, function (d) {
             return parseTime(d.timeStamp);
@@ -115,13 +119,11 @@ angular.module('temperatureDashboardApp')
             .attr('d', humidityLine);
         };
 
-        $.ajax({
-          dataType: 'jsonp',
-          jsonp: 'callback',
-          //url: 'http://localhost:3000/api/list/current/temperature/day/office?callback=?',
-          url: 'http://sala:1981/api/list/current/temperature/day/office?callback=?',
-          success: callback
-        });
+        scope.$watch('temperature', function (newVals, oldVals) {
+          if (newVals) {
+            callback.call(null, newVals);
+          }
+        }, true);
       }
     };
   });

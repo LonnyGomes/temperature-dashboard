@@ -1,4 +1,4 @@
-'use strict';
+/*global angular */
 
 /**
  * @ngdoc function
@@ -8,10 +8,18 @@
  * Controller of the temperatureDashboardApp
  */
 angular.module('temperatureDashboardApp')
-  .controller('GraphsCtrl', function () {
-    this.awesomeThings = [
-      'HTML5 Boilerplate',
-      'AngularJS',
-      'Karma'
-    ];
+  .controller('GraphsCtrl', function (temperatureService) {
+    'use strict';
+
+    var self = this;
+    self.temperatures = {
+      office: null
+    };
+
+    temperatureService.getTemperature('office')
+      .then(function (val) {
+        self.temperatures.office = val;
+      }, function (err) {
+        console.error('err:', err);
+      });
   });

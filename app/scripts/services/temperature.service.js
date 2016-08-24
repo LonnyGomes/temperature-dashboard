@@ -1,4 +1,4 @@
-/*global angular */
+/*global angular, moment */
 /**
  * @ngdoc service
  * @name temperatureDashboardApp.temperature.service
@@ -48,7 +48,30 @@ angular.module('temperatureDashboardApp')
         });
     }
 
+    function getTemperature(deviceName, dateRange) {
+      return getConfig()
+        .then(function (configResult) {
+          var baseUrl = configResult.temperatureBaseUrl,
+            url = baseUrl + '/api/list/current/temperature/' +
+                  (dateRange || 'hour' + '/') +
+                  deviceName + '?callback=JSON_CALLBACK';
+
+          return $http.jsonp(url)
+            .then(function (result) {
+              if (result.data.status) {
+                if (!result.data.data) {
+                  return $q.reject('Invalid device');
+                }
+                return result.data.data;
+              } else {
+                return $q.reject(result.data.msg);
+              }
+            });
+        });
+    }
+
     return {
-      getCurrentTemperature: getCurrentTemperature
+      getCurrentTemperature: getCurrentTemperature,
+      getTemperature: getTemperature
     };
   });
