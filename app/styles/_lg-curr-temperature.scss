@@ -1,0 +1,31 @@
+.temperature-text {
+  fill: #fff;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.temperature-container {
+  display: inline-block;
+  margin: 2px 10px;
+  text-align: center;
+  background-color: aliceblue;
+  padding: 0px 15px;
+  width: 125px;
+}
+
+.temperature-timestamp {
+  font-size: 11px;
+  color: #868686;
+  font-style: italic;
+}
+
+.humidity-header {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0px;
+}
+
+.humidity-value {
+  font-size: 16px;
+  margin: 0px 0px 5px;
+}
