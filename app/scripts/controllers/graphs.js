@@ -2,13 +2,13 @@
 
 /**
  * @ngdoc function
- * @name temperatureDashboardApp.controller:AboutCtrl
+ * @name temperatureDashboardApp.controller:GraphsCtrl
  * @description
- * # AboutCtrl
+ * # GraphsCtrl
  * Controller of the temperatureDashboardApp
  */
 angular.module('temperatureDashboardApp')
-  .controller('AboutCtrl', function () {
+  .controller('GraphsCtrl', function () {
     this.awesomeThings = [
       'HTML5 Boilerplate',
       'AngularJS',
