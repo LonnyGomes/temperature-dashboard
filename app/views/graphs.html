@@ -13,6 +13,20 @@
 </div>
 
 <div class="graph-container">
+  <h3>Bedroom Graph</h3>
+
+  <lg-temperature-chart temperature="graphs.temperatures.bedroom"></lg-temperature-chart>
+
+  <div class="graph-range-toggles">
+    <div class="btn-group" role="group" aria-label="...">
+      <button ng-click="graphs.getBedroomTemperature()" type="button" class="btn btn-default">Hour</button>
+      <button ng-click="graphs.getBedroomTemperature('day')" type="button" class="btn btn-default">Day</button>
+      <button ng-click="graphs.getBedroomTemperature('week')" type="button" class="btn btn-default">Week</button>
+    </div>
+  </div>
+</div>
+
+<div class="graph-container">
   <h3>Nest Graph</h3>
 
   <lg-temperature-chart temperature="graphs.temperatures.Living_Room_Thermostat"></lg-temperature-chart>

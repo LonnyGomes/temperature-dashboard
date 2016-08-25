@@ -23,6 +23,7 @@ angular.module('temperatureDashboardApp')
 
     self.temperatures = {
       office: null,
+      bedroom: null,
       Living_Room_Thermostat: null
     };
 
@@ -44,8 +45,17 @@ angular.module('temperatureDashboardApp')
       getTemperature.apply(null, args);
     };
 
-    getTemperature('office');
+    self.getBedroomTemperature = function (dateRange) {
+      var args = ['bedroom'];
+      if (dateRange) {
+        args.push(dateRange);
+      }
 
+      getTemperature.apply(null, args);
+    };
+
+    getTemperature('office');
+    getTemperature('bedroom');
     getTemperature('Living_Room_Thermostat');
 
   });
