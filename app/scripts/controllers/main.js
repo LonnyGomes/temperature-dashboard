@@ -13,7 +13,8 @@ angular.module('temperatureDashboardApp')
       deviceNames = [
         'office',
         'Living_Room_Thermostat',
-        'bedroom'
+        'bedroom',
+        'attic'
       ],
       getCurrentTemperature = function (deviceName) {
         return temperatureService.getCurrentTemperature(deviceName)
