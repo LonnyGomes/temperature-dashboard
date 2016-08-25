@@ -10,6 +10,30 @@ angular.module('temperatureDashboardApp')
   .service('temperatureService', function ($http, $q) {
     'use strict';
 
+    function fahrenheitToCelsius(val) {
+      return (val - 32) * (5 / 9);
+    }
+
+    function celsiusToFahrenheit(val) {
+      return (val * (9 / 5)) + 32;
+    }
+
+    function calcDewPoint(temperature, humidity) {
+      //NOTE: the formula was taken from the following URL:
+      //      http://tinyurl.com/chtn2or
+      // T = temperature in fahrenheit degrees
+      // f = relative humidity
+      // Td = dew point temperature in celsius degrees
+      // TdF = dew point temperature in fahrenheit degrees
+      var T = fahrenheitToCelsius(temperature),
+        f = humidity,
+        Td = Math.pow((f / 100), (1 / 8)) * (112 + (0.9 * T)) + (0.1 * T) - 112,
+        TdF = celsiusToFahrenheit(Td);
+
+      //return the dew point rounded to 2 significant digits
+      return Math.round(celsiusToFahrenheit(Td) * 100)/100;
+    }
+
     function getConfig() {
       return $http.get('config.json')
         .then(function (result) {
@@ -29,18 +53,23 @@ angular.module('temperatureDashboardApp')
 
           return $http.jsonp(url)
             .then(function (result) {
-              var m;
+              var m,
+                vals;
 
               if (result.data.status) {
                 if (!result.data.data) {
                   return $q.reject('Invalid device');
                 }
 
+                vals = result.data.data;
                 //add a time stamp human readable string
-                m = moment(result.data.data.timeStamp);
-                result.data.data.timeString = m.fromNow();
+                m = moment(vals.timeStamp);
+                vals.timeString = m.fromNow();
 
-                return result.data.data;
+                //add dew point value
+                vals.dewpoint = calcDewPoint(vals.temperature, vals.humidity);
+
+                return vals;
               } else {
                 return $q.reject(result.data.msg);
               }
@@ -72,6 +101,7 @@ angular.module('temperatureDashboardApp')
 
     return {
       getCurrentTemperature: getCurrentTemperature,
-      getTemperature: getTemperature
+      getTemperature: getTemperature,
+      calcDewPoint: calcDewPoint
     };
   });
