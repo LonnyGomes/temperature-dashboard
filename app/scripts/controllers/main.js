@@ -10,11 +10,31 @@ angular.module('temperatureDashboardApp')
   .controller('MainCtrl', function (temperatureService, $timeout, $interval) {
     'use strict';
     var self = this,
+      deviceNames = [
+        'office',
+        'Living_Room_Thermostat',
+        'bedroom'
+      ],
+      getCurrentTemperature = function (deviceName) {
+        return temperatureService.getCurrentTemperature(deviceName)
+          .then(function (val) {
+            self.temperatures[deviceName] = val;
+            return self.temperatures[deviceName];
+          }, function (err) {
+            console.error('Failed to retreive temperature: ', err);
+          });
+      },
+      getAllCurrentTemperatures = function (names) {
+        names.forEach(function (curDeviceName) {
+          getCurrentTemperature(curDeviceName);
+        });
+      },
       socket = io.connect('http://localhost:3000');
     self.temperatures = {};
 
-    self.temperatures.livingRoom = {};
-    self.temperatures.office = {};
+//    self.temperatures.Living_Room_Thermostat = {};
+//    self.temperatures.office = {};
+//    self.temperatures.bedroom = {};
 
     socket.on('connect', function () {
       console.log('got connected!');
@@ -28,19 +48,28 @@ angular.module('temperatureDashboardApp')
       });
     });
 
-    temperatureService.getCurrentTemperature('office')
-      .then(function (val) {
-        self.temperatures.office = val;
-      }, function (err) {
-        console.error('err:', err);
-      });
+    getAllCurrentTemperatures(deviceNames);
 
-    temperatureService.getCurrentTemperature('Living_Room_Thermostat')
-      .then(function (val) {
-        self.temperatures.Living_Room_Thermostat = val;
-      }, function (err) {
-        console.error('err:', err);
-      });
+//    temperatureService.getCurrentTemperature('office')
+//      .then(function (val) {
+//        self.temperatures.office = val;
+//      }, function (err) {
+//        console.error('err:', err);
+//      });
+//
+//    temperatureService.getCurrentTemperature('Living_Room_Thermostat')
+//      .then(function (val) {
+//        self.temperatures.Living_Room_Thermostat = val;
+//      }, function (err) {
+//        console.error('err:', err);
+//      });
+//
+//    temperatureService.getCurrentTemperature('Living_Room_Thermostat')
+//      .then(function (val) {
+//        self.temperatures.Living_Room_Thermostat = val;
+//      }, function (err) {
+//        console.error('err:', err);
+//      });
 
     //periodically update the moment timeString
     $interval(function () {
