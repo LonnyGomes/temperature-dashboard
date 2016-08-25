@@ -2,6 +2,8 @@
   <p ng-bind='label' class='temperature-header'></p>
   <div class="temperature-gauge"></div>
   <p class="humidity-header">Humidity</p>
-  <p class="humidity-value" ng-cloak>{{temperature.humidity}}%</p>
+  <p class="humidity-value" ng-bind="temperature.humidity + '%'"></p>
+  <p class="humidity-header">Dew Point</p>
+  <p class="temperature-value" ng-bind="temperature.dewpoint + '° F'"></p>
   <p class="temperature-timestamp" ng-bind="temperature.timeString"></p>
 </div>
