@@ -7,7 +7,7 @@
  * Controller of the temperatureDashboardApp
  */
 angular.module('temperatureDashboardApp')
-  .controller('MainCtrl', function (temperatureService, $timeout, $interval) {
+  .controller('MainCtrl', function (temperatureService, $timeout, $interval, $q) {
     'use strict';
     var self = this,
       deviceNames = [
@@ -25,16 +25,16 @@ angular.module('temperatureDashboardApp')
           });
       },
       getAllCurrentTemperatures = function (names) {
-        names.forEach(function (curDeviceName) {
-          getCurrentTemperature(curDeviceName);
+        var promises;
+
+        promises = names.map(function (curDeviceName) {
+          return getCurrentTemperature(curDeviceName);
         });
+
+        return $q.all(promises);
       },
       socket = io.connect('http://localhost:3000');
     self.temperatures = {};
-
-//    self.temperatures.Living_Room_Thermostat = {};
-//    self.temperatures.office = {};
-//    self.temperatures.bedroom = {};
 
     socket.on('connect', function () {
       console.log('got connected!');
@@ -48,28 +48,12 @@ angular.module('temperatureDashboardApp')
       });
     });
 
-    getAllCurrentTemperatures(deviceNames);
-
-//    temperatureService.getCurrentTemperature('office')
-//      .then(function (val) {
-//        self.temperatures.office = val;
-//      }, function (err) {
-//        console.error('err:', err);
-//      });
-//
-//    temperatureService.getCurrentTemperature('Living_Room_Thermostat')
-//      .then(function (val) {
-//        self.temperatures.Living_Room_Thermostat = val;
-//      }, function (err) {
-//        console.error('err:', err);
-//      });
-//
-//    temperatureService.getCurrentTemperature('Living_Room_Thermostat')
-//      .then(function (val) {
-//        self.temperatures.Living_Room_Thermostat = val;
-//      }, function (err) {
-//        console.error('err:', err);
-//      });
+    getAllCurrentTemperatures(deviceNames)
+      .then(function (results) {
+        console.log('Retrieved temperature data for all devices');
+      }, function (err) {
+        console.error('Failed to retrieve all data: ' + err);
+      });
 
     //periodically update the moment timeString
     $interval(function () {
