@@ -31,7 +31,7 @@ var paths = {
   karma: 'karma.conf.js',
   views: {
     main: yeoman.app + '/index.html',
-    files: [yeoman.app + '/views/**/*.html']
+    files: [yeoman.app + '/views/**/*.html', yeoman.app + '/scripts/directives/**/*.html']
   }
 };
 
