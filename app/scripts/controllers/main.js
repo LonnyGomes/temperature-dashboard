@@ -59,8 +59,14 @@ angular.module('temperatureDashboardApp')
     //periodically update the moment timeString
     $interval(function () {
       Object.keys(self.temperatures).forEach(function (curKey) {
-        var m = moment(self.temperatures[curKey].timeStamp);
-        self.temperatures[curKey].timeString = m.fromNow();
+        var curTemperature = self.temperatures[curKey],
+          m = moment(curTemperature.timeStamp);
+
+        console.log('yup');
+        curTemperature.timeString = m.fromNow();
+        curTemperature.dewpoint =
+          temperatureService.calcDewPoint(curTemperature.temperature,
+            curTemperature.humidity);
       });
     }, 30000);
 
