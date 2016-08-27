@@ -7,9 +7,11 @@
  * Controller of the temperatureDashboardApp
  */
 angular.module('temperatureDashboardApp')
-  .controller('MainCtrl', function (temperatureService, $timeout, $interval, $q) {
+  .controller('MainCtrl', function (temperatureService, $timeout, $interval, $q, $scope) {
     'use strict';
     var self = this,
+      intervalPromise = null,
+      visibilityEventName = null,
       deviceNames = [
         'office',
         'Living_Room_Thermostat',
@@ -64,17 +66,18 @@ angular.module('temperatureDashboardApp')
           }
         }
         return function (c) {
-          if (c) {
+          if (c && eventKey) {
             document.addEventListener(eventKey, c);
           }
-          return !document[stateKey];
+          return eventKey;
         };
-      }());
+      }()),
+      visibilityEventHandler = function () {
+        getAllCurrentTemperatures(deviceNames);
+      };
 
     //add visibility listeners
-    listenForVisibility(function () {
-      getAllCurrentTemperatures(deviceNames);
-    });
+    visibilityEventName = listenForVisibility(visibilityEventHandler);
 
     self.temperatures = {};
 
@@ -93,17 +96,28 @@ angular.module('temperatureDashboardApp')
     getAllCurrentTemperatures(deviceNames);
 
     //periodically update the moment timeString
-    $interval(function () {
+    intervalPromise = $interval(function () {
+      console.log('Updating time stamp durations');
       Object.keys(self.temperatures).forEach(function (curKey) {
         var curTemperature = self.temperatures[curKey],
           m = moment(curTemperature.timeStamp);
 
-        console.log('yup');
         curTemperature.timeString = m.fromNow();
         curTemperature.dewpoint =
           temperatureService.calcDewPoint(curTemperature.temperature,
             curTemperature.humidity);
       });
     }, 30000);
+
+    $scope.$on("$destroy", function () {
+      if (intervalPromise) {
+        $interval.cancel(intervalPromise);
+      }
+
+      //remove visibility listener after leaving page
+      if (visibilityEventName) {
+        document.removeEventListener(visibilityEventName, visibilityEventHandler);
+      }
+    });
 
   });
