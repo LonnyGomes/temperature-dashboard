@@ -32,9 +32,49 @@ angular.module('temperatureDashboardApp')
           return getCurrentTemperature(curDeviceName);
         });
 
-        return $q.all(promises);
+        return $q.all(promises)
+          .then(function (results) {
+            console.log('Retrieved temperature data for all devices');
+            return results;
+          }, function (err) {
+            console.error('Failed to retrieve all data: ' + err);
+            return err;
+          });
       },
-      socket = io.connect('http://localhost:3000');
+      socket = io.connect('http://localhost:3000'),
+      //derived from http://stackoverflow.com/a/19519701
+      //this funciton adds a listener  when the screen regains focus
+      listenForVisibility = (function () {
+        var stateKey,
+          eventKey,
+          keys = {
+            hidden: "visibilitychange",
+            webkitHidden: "webkitvisibilitychange",
+            mozHidden: "mozvisibilitychange",
+            msHidden: "msvisibilitychange"
+          };
+
+        for (stateKey in keys) {
+          if (keys.hasOwnProperty(stateKey)) {
+            if (document[stateKey] !== undefined) {
+              eventKey = keys[stateKey];
+              break;
+            }
+          }
+        }
+        return function (c) {
+          if (c) {
+            document.addEventListener(eventKey, c);
+          }
+          return !document[stateKey];
+        };
+      }());
+
+    //add visibility listeners
+    listenForVisibility(function () {
+      getAllCurrentTemperatures(deviceNames);
+    });
+
     self.temperatures = {};
 
     socket.on('connect', function () {
@@ -49,12 +89,7 @@ angular.module('temperatureDashboardApp')
       });
     });
 
-    getAllCurrentTemperatures(deviceNames)
-      .then(function (results) {
-        console.log('Retrieved temperature data for all devices');
-      }, function (err) {
-        console.error('Failed to retrieve all data: ' + err);
-      });
+    getAllCurrentTemperatures(deviceNames);
 
     //periodically update the moment timeString
     $interval(function () {
