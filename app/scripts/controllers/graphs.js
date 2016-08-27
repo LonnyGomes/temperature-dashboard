@@ -54,8 +54,18 @@ angular.module('temperatureDashboardApp')
       getTemperature.apply(null, args);
     };
 
+    self.getOutsideTemperature = function (dateRange) {
+      var args = ['outside'];
+      if (dateRange) {
+        args.push(dateRange);
+      }
+
+      getTemperature.apply(null, args);
+    };
+
     getTemperature('office');
     getTemperature('bedroom');
     getTemperature('Living_Room_Thermostat');
+    getTemperature('outside');
 
   });

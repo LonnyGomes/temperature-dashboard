@@ -14,6 +14,7 @@ angular.module('temperatureDashboardApp')
         'office',
         'Living_Room_Thermostat',
         'bedroom',
+        'outside',
         'attic'
       ],
       getCurrentTemperature = function (deviceName) {
