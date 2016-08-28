@@ -88,6 +88,10 @@ angular.module('temperatureDashboardApp')
     socket.on('temperatureUpdated', function (data) {
       data.timeStamp = moment();
       data.timeString = moment().fromNow();
+      //recalculate dewpont since we got new data
+      data.dewpoint =
+        temperatureService.calcDewPoint(data.temperature, data.humidity);
+
       $timeout(function () {
         self.temperatures[data.deviceName] = data;
       });
@@ -103,9 +107,6 @@ angular.module('temperatureDashboardApp')
           m = moment(curTemperature.timeStamp);
 
         curTemperature.timeString = m.fromNow();
-        curTemperature.dewpoint =
-          temperatureService.calcDewPoint(curTemperature.temperature,
-            curTemperature.humidity);
       });
     }, 30000);
 
