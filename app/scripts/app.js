@@ -1,4 +1,4 @@
-'use strict';
+/*global angular, $*/
 
 /**
  * @ngdoc overview
@@ -18,11 +18,20 @@ angular
     'ngTouch'
   ])
   .config(function ($routeProvider) {
+    'use strict';
     $routeProvider
       .when('/', {
         templateUrl: 'views/main.html',
         controller: 'MainCtrl',
-        controllerAs: 'main'
+        controllerAs: 'main',
+        resolve: {
+          config: function ($http) {
+            return $http.get('config.json')
+              .then(function (result) {
+                return result.data;
+              });
+          }
+        }
       })
       .when('/graphs', {
         templateUrl: 'views/graphs.html',
