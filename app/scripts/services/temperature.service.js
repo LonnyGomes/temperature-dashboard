@@ -31,7 +31,7 @@ angular.module('temperatureDashboardApp')
         TdF = celsiusToFahrenheit(Td);
 
       //return the dew point rounded to 2 significant digits
-      return Math.round(celsiusToFahrenheit(Td) * 100)/100;
+      return Math.round(celsiusToFahrenheit(Td) * 100) / 100;
     }
 
     function getConfig() {
@@ -82,7 +82,7 @@ angular.module('temperatureDashboardApp')
         .then(function (configResult) {
           var baseUrl = configResult.temperatureBaseUrl,
             url = baseUrl + '/api/list/current/temperature/' +
-                  (dateRange || 'hour' ) + '/' +
+                  (dateRange || 'hour') + '/' +
                   deviceName + '?callback=JSON_CALLBACK';
 
           return $http.jsonp(url)
