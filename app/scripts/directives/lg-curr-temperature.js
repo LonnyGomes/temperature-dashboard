@@ -18,7 +18,7 @@ angular.module('temperatureDashboardApp')
       },
       link: function postLink(scope, element, attrs) {
         var margin = {top: 0, right: 0, bottom: 0, left: 0},
-          frame = {width: 60, height: 250},
+          frame = {width: 55, height: 150},
           bgColor = '#e2e2e2',
           fgColor = '#3476d0',
           width = frame.width - margin.left,

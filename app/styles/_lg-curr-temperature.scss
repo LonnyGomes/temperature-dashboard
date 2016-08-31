@@ -1,10 +1,14 @@
+$temperature-font: 'Roboto Condensed', sans-serif;
+$temperature-header-font: 'Oswald', sans-serif;
 .temperature-text {
+  font-family: $temperature-font;
   fill: #fff;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: bold;
 }
 
 .temperature-container {
+  font-family: $temperature-font;
   display: inline-block;
   margin: 2px 10px;
   text-align: center;
@@ -14,6 +18,7 @@
 }
 
 .temperature-header {
+  font-family: $temperature-header-font;
   font-size: 18px;
   margin: 4px 0px;
   font-weight: bold;
