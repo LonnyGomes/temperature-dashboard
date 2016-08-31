@@ -7,7 +7,7 @@
  * Controller of the temperatureDashboardApp
  */
 angular.module('temperatureDashboardApp')
-  .controller('MainCtrl', function (temperatureService, $timeout, $interval, $q, $scope) {
+  .controller('MainCtrl', function (temperatureService, $timeout, $interval, $q, $scope, config) {
     'use strict';
     var self = this,
       intervalPromise = null,
@@ -44,8 +44,7 @@ angular.module('temperatureDashboardApp')
             return err;
           });
       },
-      socket = io.connect('http://localhost:3000'),
-      //derived from http://stackoverflow.com/a/19519701
+      socket = io.connect(config.socketIOUrl),
       //this funciton adds a listener  when the screen regains focus
       listenForVisibility = (function () {
         var stateKey,
@@ -74,6 +73,11 @@ angular.module('temperatureDashboardApp')
       }()),
       visibilityEventHandler = function () {
         getAllCurrentTemperatures(deviceNames);
+
+        //if socket.io is disconnected, try to reconnect
+        if (!socket || socket.disconnected) {
+          socket = io.connect(config.socketIOUrl);
+        }
       };
 
     //add visibility listeners
@@ -92,6 +96,7 @@ angular.module('temperatureDashboardApp')
       data.dewpoint =
         temperatureService.calcDewPoint(data.temperature, data.humidity);
 
+      console.log('Received updated data ', data.deviceName);
       $timeout(function () {
         self.temperatures[data.deviceName] = data;
       });
