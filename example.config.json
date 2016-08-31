@@ -1,3 +1,4 @@
 {
-  "temperatureBaseUrl": "http://sala:1981"
+  "temperatureBaseUrl": "http://localhost:3000",
+  "socketIOUrl": "http://localhost:3000"
 }
